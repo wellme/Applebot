@@ -20,7 +20,7 @@ class DiscordRegexReactions implements MessageHandler {
 		const data = await promisify(fs.readFile)("resources/discordRegexReactions.json", "utf8");
 		// convert string patterns into RegExp instances
 		const sets = JSON.parse(data).map((s: any) => ({
-			patterns: s.patterns.map((p: any) => new RegExp(p)),
+			patterns: s.patterns.map((p: any) => new RegExp(p, "i")),
 			reaction: s.reaction
 		})) as ReactionSet[];
 		return new DiscordRegexReactions(sets);
