@@ -25,6 +25,7 @@ import RoleMapper from "./messageHandlers/roleMapper";
 import * as Discord from "discord.js";
 import * as fs from "fs";
 import * as WebSocket from "ws";
+import DiscordRegexReactions from "./messageHandlers/discordRegexReactions";
 
 console.log("Applebot");
 
@@ -217,7 +218,8 @@ async function prepareUstream(handlers: MessageHandler[], websocketUri: string):
 		await Markov.create(),
 		await TwitchUptime.create(),
 		await Quotes.create(),
-		await DynamicResponse.create()
+		await DynamicResponse.create(),
+		await DiscordRegexReactions.create()
 	];
 
 	let backendPromises: Promise<BackendPrepared>[] = [
