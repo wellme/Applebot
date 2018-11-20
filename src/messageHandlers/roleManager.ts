@@ -114,7 +114,14 @@ class RoleManager implements MessageHandler {
 
 				} else {
 					let roleString = "Roles: "
-					for (let r of msg.guild.roles) {
+					const sortedRoles = msg.guild.roles.sort((x, y) => {
+						if (x.members.size > y.members.size)
+							return 1;
+						if (y.members.size > x.members.size)
+							return -1;
+						return 0;
+					});
+					for (let r of sortedRoles) {
 						if (r[1].name.startsWith("@") && r[1].name != "@everyone")
 							roleString += "`" + r[1].name + "[" + r[1].members.size + "]" + "` ";
 					}
