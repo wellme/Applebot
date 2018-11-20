@@ -99,12 +99,27 @@ class RoleManager implements MessageHandler {
 				break;
 			}
 			case "list": {
-				let roleString = "Roles: "
-				for (let r of msg.guild.roles) {
-					if (r[1].name.startsWith("@"))
-						roleString += "`" + r[1].name + "` ";
+				if (args.length > 2) {
+					const roleText = this.roleSanitizer(args);
+					let targetRole = msg.guild.roles.find(role => role.name === roleText);
+					if (targetRole) {
+						let roleString = "Members: "
+						for (let m of targetRole.members) {
+							roleString += "`" + m[1].user.username +  "` ";
+						}
+						await responder(roleString);
+					} else {
+						await responder(`Couldn't find a role named \`${roleText}\`.`)
+					};
+
+				} else {
+					let roleString = "Roles: "
+					for (let r of msg.guild.roles) {
+						if (r[1].name.startsWith("@") && r[1].name != "@everyone")
+							roleString += "`" + r[1].name + "[" + r[1].members.size + "]" + "` ";
+					}
+					await responder(roleString);
 				}
-				await responder(roleString);
 				break;
 			}
 			case "removeall": {
