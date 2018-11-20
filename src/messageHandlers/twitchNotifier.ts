@@ -52,8 +52,8 @@ class TwitchNotifier implements PersistentService {
 				}
 				if (newMember.presence.game) {
 					if (newMember.presence.game.streaming) {
-						console.log(`${newMember.user.username} → ${newMember.user.presence.status}`);
-						console.log("last seen: " + debouncer[newMember.user.id]);
+						//console.log(`${newMember.user.username} → ${newMember.user.presence.status}`);
+						//console.log("last seen: " + debouncer[newMember.user.id]);
 						if (((Date.now() - (debouncer[newMember.user.id] || 0)) / 1000 / 60) >= 360) {
 							let username = newMember.user.presence.game.url.substring(newMember.user.presence.game.url.lastIndexOf("/") + 1);
 							if (this._twitchChannel == username) {
@@ -62,12 +62,12 @@ class TwitchNotifier implements PersistentService {
 								targetChannel.send(`**${newMember.user.username}** is now streaming: **${newMember.presence.game.name}** — ${newMember.presence.game.url}`, { disableEveryone: true });
 							}
 						} else {
-							console.log("skipping because too soon");
+							//console.log("skipping because too soon");
 						}
 						debouncer[newMember.user.id] = Date.now();
 					}
 				} else {
-					console.log("no game");
+					//console.log("no game");
 				}
 			});
 		});
