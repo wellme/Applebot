@@ -61,6 +61,7 @@ class RoleManager implements MessageHandler {
 						}
 						await msg.member.removeRole(targetRole);
 						await responder(`OK! I've removed you from \`${roleText}\`.`);
+						this.cleanUpRoles(msg);
 					} else {
 						await responder(`Couldn't find a role named \`${roleText}\`.`)
 					};
