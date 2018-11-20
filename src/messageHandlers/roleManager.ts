@@ -116,9 +116,9 @@ class RoleManager implements MessageHandler {
 					let roleString = "Roles: "
 					const sortedRoles = msg.guild.roles.sort((x, y) => {
 						if (x.members.size > y.members.size)
-							return 1;
-						if (y.members.size > x.members.size)
 							return -1;
+						if (y.members.size > x.members.size)
+							return 1;
 						return 0;
 					});
 					for (let r of sortedRoles) {
