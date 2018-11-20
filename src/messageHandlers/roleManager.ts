@@ -6,7 +6,12 @@ import { Message } from "discord.js";
 class RoleManager implements MessageHandler {
 
 	public async cleanUpRoles(msg: Message) {
-		//xd
+		for (let r of msg.guild.roles) {
+			if (r[1].name.startsWith("@"))
+				if (r[1].members.size == 0) {
+					r[1].delete();
+				}
+		}
 	}
 
 	public roleSanitizer(args: String[]): string {
