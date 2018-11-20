@@ -43,7 +43,7 @@ class RoleManager implements MessageHandler {
 						await msg.member.addRole(targetRole);
 						await responder(`OK! I've added you to \`${roleText}\`.`);
 					} else {
-						await responder(`Couldn't find a role named \`${roleText}\`.`)
+						await responder(`Couldn't find a role named \`${roleText}\`. Maybe you could \`create\` it?`)
 					}
 				} else {
 					await responder('Usage: `!role add [name of role]`');
@@ -132,7 +132,7 @@ class RoleManager implements MessageHandler {
 				break;
 			}
 			default: {
-				await responder('Usage: `!role <create, add, remove, removeall>`');
+				await responder('Usage: `!role <create, add, remove, list, removeall>`');
 			}
 		}
 	}
