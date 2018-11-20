@@ -28,7 +28,7 @@ class RoleManager implements MessageHandler {
 		switch (args[1].toLowerCase()) {
 			case "add": {
 				if (args.length > 2) {
-					const roleText = "@" + args.slice(2).join(" ");
+					const roleText = this.roleSanitizer(args);
 					let targetRole = msg.guild.roles.find(role => role.name === roleText);
 					if (targetRole) {
 						if (msg.member.roles.has(targetRole.id)) {
@@ -47,7 +47,7 @@ class RoleManager implements MessageHandler {
 			}
 			case "remove": {
 				if (args.length > 2) {
-					const roleText = "@" + args.slice(2).join(" ");
+					const roleText = this.roleSanitizer(args);
 					let targetRole = msg.guild.roles.find(role => role.name === roleText);
 					if (targetRole) {
 						if (!msg.member.roles.has(targetRole.id)) {
@@ -67,7 +67,7 @@ class RoleManager implements MessageHandler {
 			}
 			case "create": {
 				if (args.length > 2) {
-					const roleText = "@" + args.slice(2).join(" ");
+					const roleText = this.roleSanitizer(args);
 					let dupeRole = msg.guild.roles.find(role => role.name === roleText);
 					if (dupeRole) {
 						if (msg.member.roles.has(dupeRole.id)) {
