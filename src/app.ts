@@ -215,13 +215,13 @@ async function prepareUstream(handlers: MessageHandler[], websocketUri: string):
 		new Fightan(),
 		new TestSuccessful(),
 		new TrueHit(),
+		new RoleManager(),
 		await SVLookup.create(),
 		await Markov.create(),
 		await TwitchUptime.create(),
 		await Quotes.create(),
 		await DynamicResponse.create(),
-		await DiscordRegexReactions.create(),
-		await RoleManager.create()
+		await DiscordRegexReactions.create()
 	];
 
 	let backendPromises: Promise<BackendPrepared>[] = [
