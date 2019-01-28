@@ -87,11 +87,11 @@ const setAsyncInterval = (callback: () => Promise<void>, delay: number) => setIn
 
 class ReflexWatcher implements PersistentService {
 
-	private _discordChannel: string;
-	private _serverURL: string;
-	private _baseTopic: string;
-	private _baseTitle: string;
-	private _activeTitle: string;
+	private _discordChannel!: string;
+	private _serverURL!: string;
+	private _baseTopic!: string;
+	private _baseTitle!: string;
+	private _activeTitle!: string;
 	
 	public static async create() {
 		const data = await readSettings();

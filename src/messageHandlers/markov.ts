@@ -25,17 +25,17 @@ function readWordFilter(): Promise<string | undefined> {
 
 class Markov implements MessageHandler {
 
-	private _data: sqlite.Database;
-	private _trainWords: sqlite.Statement;
-	private _trainRelations: sqlite.Statement;
-	private _getStarter: sqlite.Statement;
-	private _getNext: sqlite.Statement;
-	private _getWord: sqlite.Statement;
+	private _data!: sqlite.Database;
+	private _trainWords!: sqlite.Statement;
+	private _trainRelations!: sqlite.Statement;
+	private _getStarter!: sqlite.Statement;
+	private _getNext!: sqlite.Statement;
+	private _getWord!: sqlite.Statement;
 
-	private _wordArray: { [id: number]: string };
-	private _idArray: { [word: string]: number };
+	private _wordArray!: { [id: number]: string };
+	private _idArray!: { [word: string]: number };
 
-	private _wordFilter: string[];
+	private _wordFilter!: string[];
 
 	private _emotes: string[] = [":o", ":0", ":v", ":u", ":?", ":o", ":I"];
 	private _names: string[] = ["applebot", "appleb0t", "<@213048998678888448>"];
