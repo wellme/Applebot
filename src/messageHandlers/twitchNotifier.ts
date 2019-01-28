@@ -41,6 +41,8 @@ class TwitchNotifier implements PersistentService {
 	}
 
 	async backendInitialized(type: string, backend: any) {
+		if (backend == undefined || backend.type != "DISCORD")
+			return;
 		const client = backend as Discord.Client;
 		let debouncer: { [user: string]: number } = {};
 		client.on('ready', () => {
@@ -59,7 +61,7 @@ class TwitchNotifier implements PersistentService {
 							if (this._twitchChannel == username) {
 								targetChannel.send(`@everyone TYRON STREAM :D?\n**${newMember.presence.game.name}** — ${newMember.presence.game.url}`);
 							} else {
-								targetChannel.send(`**${newMember.user.username}** is now streaming: **${newMember.presence.game.name}** — ${newMember.presence.game.url}`, { disableEveryone: true });
+								targetChannel.send(`**${newMember.user.username}** is now streaming.\n**${newMember.presence.game.name}** — ${newMember.presence.game.url}`, { disableEveryone: true });
 							}
 						} else {
 							//console.log("skipping because too soon");
