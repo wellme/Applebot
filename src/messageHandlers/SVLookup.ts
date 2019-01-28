@@ -78,6 +78,7 @@ enum Set {
 	"Dawnbreak, Nightedge",
 	"Brigade of the Sky",
 	"Omen of the Ten",
+	"Altersphere",
 	"Promotional" = 70000,
 	"Token" = 90000
 }
@@ -265,7 +266,7 @@ class SVLookup implements MessageHandler {
 					const format = deck.every(x => x.format_type == 1);
 					embed.setFooter(`Deck code expired? Click the link to generate another.`)
 						.setTitle( `${Craft[deckJson.clan]} Deck - ${target}`)
-						.setFooter(`${format} Format - ${vials} vials - Click link to generate new deck code`)
+						.setFooter(`${format ? "Rotation" : "Unlimited"} Format - ${vials} vials - Click link to generate new deck code`)
 						.setImage(`https://shadowverse-portal.com/image/${hash}?lang=en`)
 						.setURL(`https://shadowverse-portal.com/deck/${hash}`)
 						.setColor(0xF6C7C7);
