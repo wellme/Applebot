@@ -41,7 +41,7 @@ class TwitchNotifier implements PersistentService {
 	}
 
 	async backendInitialized(type: string, backend: any) {
-		if (backend == undefined || backend.type != "DISCORD")
+		if (type != "DISCORD")
 			return;
 		const client = backend as Discord.Client;
 		let debouncer: { [user: string]: number } = {};
