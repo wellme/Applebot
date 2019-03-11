@@ -40,7 +40,7 @@ class TwitchUptime implements MessageHandler {
 
 		if (/^!uptime$/.test(content)) {
 			try {
-				const request = await fetch(`https://decapi.me/twitch/uptime?channel=${this._channel}`);
+				const request = await fetch(`https://decapi.me/twitch/uptime?channel=${(info as TwitchExtendedInfo).channel}`);
 				const text = await request.text();
 				if (text.indexOf("offline") == -1) {
 					await resp(`Live for ${text}.`, false);
@@ -49,7 +49,7 @@ class TwitchUptime implements MessageHandler {
 				}
 
 			} catch {
-				await resp("Couldn't retrieve uptime infoâ€”error in request?", false);
+				await resp("Couldn't retrieve uptime info—error in request?", false);
 			}
 		}
 	}
