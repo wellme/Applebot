@@ -35,7 +35,7 @@ class RoleManager implements MessageHandler {
 			case "purge": {
 				if (!elevated)
 					break;
-				let roleString = "Roles to be purged: "
+				let roleString = "To purge: "
 				const filteredRoles = msg.guild.roles.filter(x => x.members.size < 3);
 				if (filteredRoles.size < 1) {
 					await responder("No roles to be purged.");
@@ -46,6 +46,15 @@ class RoleManager implements MessageHandler {
 						roleString += "`" + r[1].name + "[" + r[1].members.size + "]" + "` ";
 				}
 				await responder(roleString)
+				if (args.length > 2 ) {
+					if (args[2] == "BUTTON") {
+						for (let r of filteredRoles) {
+							if (r[1].name.startsWith("@") && r[1].name != "@everyone")
+								await r[1].delete("Autopurged");
+						}
+						await responder("Purged for real.");
+					}
+				}
 				break;
 			}
 			case "add": {
