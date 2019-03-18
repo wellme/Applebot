@@ -23,6 +23,7 @@ class RoleManager implements MessageHandler {
 			return;
 		const discordInfo = info as DiscordExtendedInfo;
 		const msg = discordInfo.message;
+		const elevated = discordInfo.message.member.hasPermission("BAN_MEMBERS");
 		let args = content.split(" ");
 
 		if (args[0] != "!role")
@@ -31,6 +32,22 @@ class RoleManager implements MessageHandler {
 			return;
 
 		switch (args[1].toLowerCase()) {
+			case "purge": {
+				if (!elevated)
+					break;
+				let roleString = "Roles to be purged: "
+				const filteredRoles = msg.guild.roles.filter(x => x.members.size < 3);
+				if (filteredRoles.size < 1) {
+					await responder("No roles to be purged.");
+					break;
+				}
+				for (let r of filteredRoles) {
+					if (r[1].name.startsWith("@") && r[1].name != "@everyone")
+						roleString += "`" + r[1].name + "[" + r[1].members.size + "]" + "` ";
+				}
+				await responder(roleString)
+				break;
+			}
 			case "add": {
 				if (args.length > 2) {
 					const roleText = this.roleSanitizer(args);
