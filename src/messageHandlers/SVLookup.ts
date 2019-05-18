@@ -432,8 +432,8 @@ class SVLookup implements MessageHandler {
 						await this.sendError(`"${card.card_name}" doesn't have evolved art.`, "", discordInfo);
 						continue;
 					}
-					const cleanName = card.card_name.toLowerCase().replace(/\W/g, '').trim();
-					embed.setImage("http://sv.bagoum.com/getRawImage/" + (evolved ? "1" : "0") + "/" + (alternate) + "/" + cleanName);
+					// const cleanName = card.card_name.toLowerCase().replace(/\W/g, '').trim();
+					embed.setImage("http://sv.bagoum.com/getRawImage/" + (evolved ? "1" : "0") + "/" + (alternate) + "/" + card.base_card_id);
 					if (matches > 1 && !alternate)
 						embed.setFooter(`Alt art available! Try "a2" or "e2"`);
 					if (matches > 2 && alternate == 1)
@@ -463,7 +463,7 @@ class SVLookup implements MessageHandler {
 						legality = "";
 					let sanitizedTribe = (card.tribe_name == "-") ? "" : `(${card.tribe_name})`;
 					embed.setURL(`http://sv.bagoum.com/cards/${card.card_id}`)
-					.setThumbnail(`https://shadowverse-portal.com/image/card/en/C_${card.card_id}.png`)
+					.setThumbnail(`https://sv.bagoum.com/cardF/en/c/${card.card_id}`)
 					.setFooter(Craft[card.clan] + " " + Rarity[card.rarity] + " - " + Set[card.card_set_id] + " " + legality);
 					switch (card.char_type) {
 						case 1: {
