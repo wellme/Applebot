@@ -360,7 +360,7 @@ class SVLookup implements MessageHandler {
 				target = SVLookup.aliases[target];
 
 			 if (target.toLowerCase() == "topdeck")
-                target = this._cards[Math.floor(1 + Math.random() * this._cards.length)].card_name.toLowerCase();
+                target = this._cards[Math.floor( Math.random() * this._cards.length)].card_name.toLowerCase();
 
 			let cards = this._cards.filter(x => x.card_name.toLowerCase().includes(target));
 			if (cards.length < 1) {
