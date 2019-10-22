@@ -329,14 +329,22 @@ class SVLookup implements MessageHandler {
 				const request = await fetch(`https://shadowverse-portal.com/api/v1/deck/import?format=json&deck_code=${target}&lang=en`);
 				const json = await request.json();
 				if (json.data.errors.length == 0) {
-					const hash = json.data.hash;
+          const hash = json.data.hash;
 					const embed = new Discord.RichEmbed();
 					const deckRequest = await fetch(`https://shadowverse-portal.com/api/v1/deck?format=json&hash=${hash}&lang=en`);
-					const rawJson = await deckRequest.json();
+          const rawJson = await deckRequest.json();
 					const deckJson = rawJson.data.deck;
 					const deck = (deckJson.cards as Card[]);
 					const vials = deck.map(x => x.use_red_ether).reduce((a, b) => a + b, 0);
-					const format = deck.every(x => x.format_type == 1);
+          const format = deck.every(x => x.format_type == 1);
+          let formatString = "Unlimited"
+          if (deckJson.deck_format == 2) {
+            formatString = "Take Two";
+          } else if (deckJson.deck_format == 4) {
+            formatString = "Open 6";
+          } else if (format) {
+            formatString = "Rotation";
+          }
 					const deckImage = await fetch('https://shadowverse-portal.com/image/1?lang=en', {
 						headers: {'Referer': "https://shadowverse-portal.com/deck/" + hash + "?lang=en"}
 					});
@@ -348,7 +356,7 @@ class SVLookup implements MessageHandler {
 					const imgurJSON = await imgurReupload.json();
 					embed.setFooter(`Deck code expired? Click the link to generate another.`)
 						.setTitle( `${Craft[deckJson.clan]} Deck - ${target}`)
-						.setFooter(`${format ? "Rotation" : "Unlimited"} Format - ${vials} vials - Click link to generate new deck code`)
+						.setFooter(`${formatString} Format - ${vials} vials - Click link to generate new deck code`)
 						.setImage(imgurJSON.data.link)
 						.setURL(`https://shadowverse-portal.com/deck/${hash}`)
 						.setColor(0xF6C7C7);
