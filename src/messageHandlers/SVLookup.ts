@@ -91,7 +91,9 @@ enum Set {
 	"Brigade of the Sky",
 	"Omen of the Ten",
 	"Altersphere",
-	"Steel Rebellion",
+  "Steel Rebellion",
+  "Rebirth of Glory",
+  "Verdant Conflict",
 	"Promotional" = 70000,
 	"Token" = 90000
 }
@@ -202,15 +204,16 @@ class SVLookup implements MessageHandler {
 	}
 
 	public static async create() {
+    console.log("Getting cards...");
 		const request = await fetch(`https://shadowverse-portal.com/api/v1/cards?format=json&lang=en`);
 		const json = await request.json();
-		const cards = json.data.cards as Card[];
-		for (let c of cards) { // keyword highlighting and dealing with malformed api data
-			c.card_name = c.card_name.replace("\\", "").trim();
-			c.org_skill_disc = SVLookup.orgescape(c.org_skill_disc).trim();
-			c.org_evo_skill_disc = SVLookup.orgescape(c.org_evo_skill_disc).replace(/\n\(This card will be treated as .*$/g, "").trim();
-			c.description = SVLookup.escape(c.description);
-			c.evo_description = SVLookup.escape(c.evo_description)
+    const cards = (json.data.cards as Card[]).filter(x => x.card_name != null);
+    for (let c of cards) { // keyword highlighting and dealing with malformed api data
+      c.card_name = c.card_name.replace("\\", "").trim();
+      c.org_skill_disc = SVLookup.orgescape(c.org_skill_disc).trim();
+      c.org_evo_skill_disc = SVLookup.orgescape(c.org_evo_skill_disc).replace(/\n\(This card will be treated as .*$/g, "").trim();
+      c.description = SVLookup.escape(c.description);
+      c.evo_description = SVLookup.escape(c.evo_description)
 		}
 		console.log(`Starting SVLookup with ${cards.length} cards`);
 		const data = await readSettings();
