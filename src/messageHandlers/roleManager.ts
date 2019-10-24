@@ -5,6 +5,8 @@ import { Message } from "discord.js";
 
 class RoleManager implements MessageHandler {
 
+	private static MAX_MESSAGE_LENGTH: number = 2000;
+
 	public async cleanUpRoles(msg: Message) {
 		for (let r of msg.guild.roles) {
 			if (r[1].name.startsWith("@"))
@@ -139,13 +141,22 @@ class RoleManager implements MessageHandler {
 					};
 
 				} else {
-					let roleString = "Roles: "
+					let roleString = "Roles: ";
+					let queue = new Promise(res => res());
 					const sortedRoles = msg.guild.roles.sort((a, b) => b.members.size - a.members.size);
 					for (let r of sortedRoles) {
-						if (r[1].name.startsWith("@") && r[1].name != "@everyone")
-							roleString += "`" + r[1].name + "[" + r[1].members.size + "]" + "` ";
+						if (!r[1].name.startsWith("@") || r[1].name == "@everyone")
+							continue;
+						let currentRole = "`" + r[1].name + "[" + r[1].members.size + "]" + "` ";
+						if(roleString.length + currentRole.length > RoleManager.MAX_MESSAGE_LENGTH) {
+							queue = queue.then(async () => await responder(roleString));
+							roleString = "";
+						}
+						roleString += currentRole;
 					}
-					await responder(roleString);
+					if(roleString.length != 0)
+						queue = queue.then(async () => await responder(roleString));
+					await queue;
 				}
 				break;
 			}
