@@ -142,21 +142,19 @@ class RoleManager implements MessageHandler {
 
 				} else {
 					let roleString = "Roles: ";
-					let queue = new Promise(res => res());
 					const sortedRoles = msg.guild.roles.sort((a, b) => b.members.size - a.members.size);
 					for (let r of sortedRoles) {
 						if (!r[1].name.startsWith("@") || r[1].name == "@everyone")
 							continue;
 						let currentRole = "`" + r[1].name + "[" + r[1].members.size + "]" + "` ";
 						if(roleString.length + currentRole.length > RoleManager.MAX_MESSAGE_LENGTH) {
-							queue = queue.then(async () => await responder(roleString));
+							await responder(roleString);
 							roleString = "";
 						}
 						roleString += currentRole;
 					}
 					if(roleString.length != 0)
-						queue = queue.then(async () => await responder(roleString));
-					await queue;
+						await responder(roleString);
 				}
 				break;
 			}
